@@ -39,3 +39,15 @@ jobs:
       - name: 'Working'
         run: 
           python ./generate2025.py
+      - name: commit
+        run: |
+          git pull
+          git config --global user.email zrc4889@163.com  
+          git config --global user.name zrc4889
+          git add .
+          git commit -m "Updated" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
