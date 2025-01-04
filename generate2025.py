@@ -184,6 +184,8 @@ def generate_html(path, root_path):
 
     # 保存HTML文件
     output_file = os.path.join(path, 'index.html')
+    if 'workflow' in path: 
+        return
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html_content)
