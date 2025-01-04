@@ -19,6 +19,7 @@ jobs:
         run: git add index.html # 这里假设生成的文件名为 output.txt，替换成实际生成的文件名，将其添加到暂存区
       - name: Commit changes
         run: |
+          git pull
           git config --global user.name "zrc4889" # 替换为你的 GitHub 用户名
           git config --global user.email "zrc4889@163.com" # 替换为你的 GitHub 注册邮箱
           git commit -m "updated" # 自定义提交信息
