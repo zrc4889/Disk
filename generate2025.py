@@ -112,6 +112,8 @@ def generate_html(path, root_path):
     # 添加文件和文件夹列表
     
     for item, is_dir, mod_time in sorted(items, key=lambda x: (-x[1], x[0].lower())):
+        if item == "index.html":
+            continue
         item_path = item if not is_dir else f"{item}/index.html"
         icon = 'fa-folder' if is_dir else 'fa-file'
         html_content += f'''
