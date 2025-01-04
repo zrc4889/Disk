@@ -7,7 +7,7 @@ def generate_html(path, root_path):
     items = []
     try:
         for item in os.listdir(path):
-            if item == '.git' or item == '.github':  # 排除.git文件夹
+            if item == '.git' or item == '.github' :  # 排除.git文件夹
                 continue
             full_path = os.path.join(path, item)
             mtime = os.path.getmtime(full_path)
