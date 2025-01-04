@@ -1,53 +1,26 @@
- # This is a basic workflow to help you get started with Actions
-
-name: Update
-
-# Controls when the action will run. 
+name: Python Run and Commit
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
-  #pull_request:
-    #branches: [ main ]
-  schedule:
-    - cron: '40 * * * *'
-  # Allows you to run this workflow manually from the Actions tab
-  #workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    branches:
+      - main # 可按需修改为你期望触发此工作流的分支，例如 'dev' 等
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  python-run-and-commit:
+    runs-on: ubuntu-latest # 选择运行环境，这里选 Ubuntu 最新版，也可换其他支持的操作系统环境
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: 'Set up Python'
-        uses: actions/setup-python@v1
+      - name: Checkout code
+        uses: actions/checkout@v3 # 检出仓库代码到运行环境中
+      - name: Set up Python environment
+        uses: actions/setup-python@v4 # 用于设置 Python 环境，默认安装较新版本的 Python
         with:
-           python-version: 3.9
-      - name: 'Install requirements'
+          python-version: 3.9 # 根据你的 Python 文件实际需求指定版本，如 3.8、3.9 等
+      - name: Run Python file
+        run: python generate2025.py # 运行你的 Python 文件，这里假设 Python 文件名为 main.py，可按需替换
+      - name: Add generated file
+        run: git add index.html # 这里假设生成的文件名为 output.txt，替换成实际生成的文件名，将其添加到暂存区
+      - name: Commit changes
         run: |
-      #      pip install PyEmail
-      #      pip install smtplib -i https://pypi.tuna.tsinghua.edu.cn/simple/ --trusted-host pypi.tuna.tsinghua.edu.cn
-      - name: 'Working'
-        run: 
-          python ./generate2025.py
-      - name: commit
-        run: |
-          git pull
-          git config --global user.email zrc4889@163.com  
-          git config --global user.name zrc4889
-          git add .
-          git commit -m "Updated" -a
+          git config --global user.name "zrc4889" # 替换为你的 GitHub 用户名
+          git config --global user.email "zrc4889@163.com" # 替换为你的 GitHub 注册邮箱
+          git commit -m "updated" # 自定义提交信息
       - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
+        run: git push origin ${{ github.ref }} # 将更改推送到远程仓库对应的分支
